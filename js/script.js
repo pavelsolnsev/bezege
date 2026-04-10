@@ -193,18 +193,31 @@ $(function () {
 
     let infoButton = document.querySelector('.services__info-button'),
         inputHidden = document.querySelector('.form__lidforma');
-    infoButton.dataset.title = this.querySelector('.services__items-item-title').innerHTML.trim();
-    infoButton.addEventListener('click', function () {
-        inputHidden.value = infoButton.dataset.title
-    })
+    if (infoButton && inputHidden) {
+        var firstProgTitle = document.querySelector('.active-program .services__items-item-title') || document.querySelector('.services__items-item-title');
+        if (firstProgTitle) {
+            infoButton.dataset.title = firstProgTitle.innerHTML.trim();
+        }
+        infoButton.addEventListener('click', function () {
+            inputHidden.value = infoButton.dataset.title;
+        });
+    }
 
     $('.services__info-button-mob').on('click', function () {
-        inputHidden.value = $(this).data('title')
-    })
+        var h = document.querySelector('.form__lidforma');
+        if (h) {
+            h.value = $(this).data('title');
+        }
+    });
     function initProgramsTabs() {
         let clickElem = document.querySelectorAll('.services__items-item'),
             infoName = document.querySelector('.services__info-title'),
-            infoTxt = document.querySelector('.services__info-txt');
+            infoTxt = document.querySelector('.services__info-txt'),
+            deskBtn = document.querySelector('.services__info-button');
+
+        if (!clickElem.length || !infoName || !infoTxt || !deskBtn) {
+            return;
+        }
 
         for (let elem of clickElem) {
             elem.addEventListener('click', function () {
@@ -213,7 +226,7 @@ $(function () {
                 this.classList.add('active-program');
                 infoName.innerHTML = this.querySelector('.services__items-item-title').innerHTML;
                 infoTxt.innerHTML = this.querySelector('.services__items-item-txt').innerHTML;
-                infoButton.dataset.title = this.querySelector('.services__items-item-title').innerHTML.trim();
+                deskBtn.dataset.title = this.querySelector('.services__items-item-title').innerHTML.trim();
             })
         }
     }
